@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'DIN';
+  src: url('./fonts/DIN.ttf') format('ttf'),
+       url('./fonts/DIN.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DIN Bold';
+  src: url('./fonts/DIN Bold.ttf') format('ttf'),
+       url('./fonts/DIN Bold.ttf') format('ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Repeat similar blocks for DIN Black and DIN Medium */
+
+:root {
+  --s-full: 97.2307692rem;
+}
+
+.container {
+  max-width: var(--s-full);
+  margin: 0 auto;
+  padding: 0 1rem; /* Optional padding */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none; /* Prevents bounce */
+}
+
+.enable-bounce {
+  overscroll-behavior: auto !important;
+}
