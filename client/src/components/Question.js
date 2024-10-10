@@ -4,6 +4,7 @@ import Answer from "./Answer";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import PostFooter from "./PostFooter";
 import RichTextarea from "./RichTextarea";
+import InfoBar from "./InfoBar";
 
 const formatViews = (views) => {
   if (views >= 1000000) {
@@ -221,76 +222,90 @@ const Question = () => {
 
   return (
     <div className="container mx-auto py-4 border-l border-gray-200">
-      {/* Question Header */}
+      {/* Full-width Question Header */}
       <div className="border-b border-gray-300 pb-4 mb-4">
-        <h1 className="text-2xl mb-2">{question.title}</h1>
-        <div className="text-gray-600 text-sm flex space-x-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl mb-2">{question.title}</h1>
+          <button className="bg-secondary text-white px-4 py-2 rounded-md text-sm">Ask Question</button>
+        </div>
+        {/* Post Details */}
+        <div className="text-gray-600 text-sm flex space-x-6 mt-2">
           <span>
             Asked: <span className="text-black">{datePostedRelative}</span>
           </span>
           <span>
-            Modified <span className="text-black">{dateModifiedRelative}</span>
+            Modified: <span className="text-black">{dateModifiedRelative}</span>
           </span>
           <span>
-            Viewed <span className="text-black">{formattedViews} times</span>
+            Viewed: <span className="text-black">{formattedViews} times</span>
           </span>
         </div>
       </div>
 
-      {/* Question Body */}
-      <div className="mb-6 flex">
-        {/* Voter Component */}
-        <Voter initialVotes={question.votes} />
+      {/* Question Content and InfoBar */}
+      <div className="flex">
+        {/* Question and Voter */}
+        <div className="flex-grow">
+          <div className="mb-6 flex">
+            {/* Voter Component */}
+            <Voter initialVotes={question.votes} />
 
-        {/* Question Content */}
-        <div className="ml-4 flex-grow">
-          <p>{question.content}</p>
-          {/* Tags after the question content */}
-          <div className="mt-4 mb-10">
-            {question.tags.map((tag, index) => (
-              <span key={index} className="text-sm font-medium bg-gray-100 px-2 py-1 mr-2 rounded hover:bg-gray-300 hover:cursor-pointer">
-                {tag}
-              </span>
+            {/* Question Content */}
+            <div className="ml-4 flex-grow">
+              <p>{question.content}</p>
+              {/* Tags after the question content */}
+              <div className="mt-4 mb-10">
+                {question.tags.map((tag, index) => (
+                  <span key={index} className="text-sm font-medium bg-gray-100 px-2 py-1 mr-2 rounded hover:bg-gray-300 hover:cursor-pointer">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {/* Footer Component */}
+              <PostFooter dateString={question.dateModified} comments={question.comments} userName={question.author} />
+            </div>
+          </div>
+
+          {/* Answers Section */}
+          <div className="mt-16 mb-8">
+            <h2 className="text-xl mb-4">{question.answers.length} Answers</h2>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm text-gray-700">Sorted by:</label>
+              <select className="border border-gray-300 rounded px-2 py-1 text-sm">
+                <option>Highest score (Default)</option>
+                <option>Trending (recent votes count more)</option>
+                <option>Date modified (newest first)</option>
+                <option>Date created (oldest first)</option>
+              </select>
+            </div>
+
+            {question.answers.map((answer) => (
+              <Answer key={answer.id} answer={answer} />
             ))}
           </div>
-          {/* Footer Component */}
-          <PostFooter dateString={question.dateModified} comments={question.comments} userName={question.author} />
+
+          {/* Call to Share Section */}
+          <div className="mt-10">
+            <p className="text-lg">
+              Know someone who can answer? Share a link to this{" "}
+              <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">question</span> via{" "}
+              <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">email</span>,{" "}
+              <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Twitter</span>, or{" "}
+              <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Facebook</span>.
+            </p>
+          </div>
+
+          {/* Your Answer Section */}
+          <div className="mt-3">
+            <h3 className="text-lg">Your Answer</h3>
+            <RichTextarea />
+          </div>
         </div>
-      </div>
 
-      {/* Answers Section */}
-      <div className="mt-16 flex justify-between items-center mb-8">
-        <h2 className="text-xl mb-4">{question.answers.length} Answers</h2>
-        <div className="flex items-center space-x-2">
-          <label className="text-sm text-gray-700">Sorted by:</label>
-          <select className="border border-gray-300 rounded px-2 py-1 text-sm">
-            <option>Highest score (Default)</option>
-            <option>Trending (recent votes count more)</option>
-            <option>Date modified (newest first)</option>
-            <option>Date created (oldest first)</option>
-          </select>
+        {/* Info Bar */}
+        <div className="w-1/4 pl-6">
+          <InfoBar />
         </div>
-      </div>
-
-      {question.answers.map((answer) => (
-        <Answer key={answer.id} answer={answer} />
-      ))}
-
-      {/* Call to Share Section */}
-      <div className="mt-10">
-        <p className="text-lg">
-          Know someone who can answer? Share a link to this{" "}
-          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">question</span> via{" "}
-          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">email</span>,{" "}
-          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Twitter</span>, or{" "}
-          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Facebook</span>.
-        </p>
-      </div>
-
-      {/* Your Answer Section */}
-      <div className="mt-3">
-        <h3 className="text-lg">Your Answer</h3>
-        <RichTextarea />
       </div>
     </div>
   );
