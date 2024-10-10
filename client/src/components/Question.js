@@ -260,8 +260,6 @@ const Question = () => {
       {/* Answers Section */}
       <div className="mt-16 flex justify-between items-center mb-8">
         <h2 className="text-xl mb-4">{question.answers.length} Answers</h2>
-
-        {/* Sorted By Dropdown */}
         <div className="flex items-center space-x-2">
           <label className="text-sm text-gray-700">Sorted by:</label>
           <select className="border border-gray-300 rounded px-2 py-1 text-sm">
@@ -276,6 +274,24 @@ const Question = () => {
       {question.answers.map((answer) => (
         <Answer key={answer.id} answer={answer} />
       ))}
+
+      {/* Call to Share Section */}
+      <div className="mt-10">
+        <p className="text-lg">
+          Know someone who can answer? Share a link to this{" "}
+          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">question</span> via{" "}
+          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">email</span>,{" "}
+          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Twitter</span>, or{" "}
+          <span className="text-secondary-500 cursor-pointer hover:text-secondary-600">Facebook</span>.
+        </p>
+      </div>
+
+      {/* Your Answer Section */}
+      <div className="mt-3">
+        <h3 className="text-lg">Your Answer</h3>
+        <textarea className="w-full mt-2 p-2 border border-gray-300 rounded-lg h-40" placeholder="Enter your answer here..."></textarea>
+        {/* Rich text editor functionality would be handled by a library like Quill.js or Draft.js */}
+      </div>
     </div>
   );
 };
