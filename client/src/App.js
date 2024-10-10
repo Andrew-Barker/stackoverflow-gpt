@@ -9,7 +9,8 @@ function App() {
       <SearchBar />
       <div className="container flex">
         <Navbar />
-        <div className="flex-grow p-4">
+        <div className="flex-grow p-4 ml-52">
+          {/* The ml-52 ensures that the content is pushed to the right of the navbar */}
           <Question />
         </div>
       </div>

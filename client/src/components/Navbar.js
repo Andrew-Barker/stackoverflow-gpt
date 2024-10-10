@@ -5,7 +5,7 @@ import { BiBuildings } from "react-icons/bi";
 
 const Navbar = () => {
   return (
-    <div className="w-52 bg-white h-screen pl-4 pt-6 border-r border-gray-200 text-sm">
+    <div className="w-52 bg-white h-full pl-4 pt-6 border-r border-gray-200 text-sm fixed top-15">
       {/* Navbar Links */}
       <ul className="space-y-2">
         <li className="flex items-center space-x-3 p-1 hover:bg-gray-100 hover:border hover:border-l hover:rounded-l-md cursor-pointer">
