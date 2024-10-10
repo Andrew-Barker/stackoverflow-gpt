@@ -27,6 +27,7 @@ const Question = () => {
     views: 1025,
     datePosted: "2021-09-15T14:45:00",
     dateModified: "2023-10-31T12:10:00",
+    author: "CSSNewbie",
     tags: ["css", "html", "center"],
     comments: [
       {
@@ -48,6 +49,7 @@ const Question = () => {
         content: "You can use `display: flex` and `justify-content: center;` combined with `align-items: center;` to center a div.",
         votes: 1583,
         isAccepted: true,
+        author: "FlexMaster",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -64,6 +66,7 @@ const Question = () => {
         content: "Another option is to use `margin: auto;` on the div and set a width.",
         votes: 3462,
         isAccepted: false,
+        author: "AutoMarginPro",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [],
@@ -73,6 +76,7 @@ const Question = () => {
         content: "You can use `position: absolute;` combined with `top: 50%; left: 50%;` and `transform: translate(-50%, -50%);` for centering.",
         votes: 712,
         isAccepted: false,
+        author: "PositionMaster",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -95,6 +99,7 @@ const Question = () => {
         content: "Using CSS Grid is another modern approach. Set the container to `display: grid; place-items: center;`.",
         votes: 1212,
         isAccepted: false,
+        author: "GridMaster",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -111,6 +116,7 @@ const Question = () => {
         content: "For older browsers, try setting the parent to `text-align: center;` and the child to `display: inline-block;`.",
         votes: 431,
         isAccepted: false,
+        author: "OldBrowserHater",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [],
@@ -129,6 +135,7 @@ const Question = () => {
         content: "If the div has a fixed width, use `margin: 0 auto;` along with `position: relative;` for horizontal centering.",
         votes: 545,
         isAccepted: false,
+        author: "FixedWidthPro",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -145,6 +152,7 @@ const Question = () => {
         content: "Use `min-height: 100vh; display: flex; justify-content: center; align-items: center;` for full-page centering.",
         votes: 1101,
         isAccepted: false,
+        author: "FullPageCentering",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [],
@@ -154,6 +162,7 @@ const Question = () => {
         content: "To center inline content, use `text-align: center;` on the parent container and `vertical-align: middle;`.",
         votes: 211,
         isAccepted: false,
+        author: "InlineExpert",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -170,6 +179,7 @@ const Question = () => {
         content: "Try using CSS `transform-origin` to center a div within its parent element for more control over placement.",
         votes: 632,
         isAccepted: false,
+        author: "TransformMaster",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [],
@@ -179,6 +189,7 @@ const Question = () => {
         content: "For Flexbox, remember to add `height: 100%;` to the parent container to ensure proper centering.",
         votes: 781,
         isAccepted: false,
+        author: "FlexHeightPro",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [
@@ -195,6 +206,7 @@ const Question = () => {
         content: "Using `display: table;` on the parent and `display: table-cell; vertical-align: middle;` on the child is also an option.",
         votes: 854,
         isAccepted: false,
+        author: "TableMaster",
         datePosted: "2021-09-15T14:45:00",
         dateModified: "2023-10-31T12:10:00",
         comments: [],
@@ -207,7 +219,7 @@ const Question = () => {
   const formattedViews = formatViews(question.views);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-4 border-l border-gray-200">
       {/* Question Header */}
       <div className="border-b border-gray-300 pb-4 mb-4">
         <h1 className="text-2xl mb-2">{question.title}</h1>
@@ -230,20 +242,19 @@ const Question = () => {
         <Voter initialVotes={question.votes} />
 
         {/* Question Content */}
-        <div className="ml-4">
+        <div className="ml-4 flex-grow">
           <p>{question.content}</p>
+          {/* Tags after the question content */}
+          <div className="mt-4 mb-10">
+            {question.tags.map((tag, index) => (
+              <span key={index} className="text-sm font-medium bg-gray-100 px-2 py-1 mr-2 rounded hover:bg-gray-300 hover:cursor-pointer">
+                {tag}
+              </span>
+            ))}
+          </div>
           {/* Footer Component */}
-          <PostFooter dateString={question.dateModified} comments={question.comments} />
+          <PostFooter dateString={question.dateModified} comments={question.comments} userName={question.author} />
         </div>
-      </div>
-
-      {/* Tags after the question content */}
-      <div className="mt-4">
-        {question.tags.map((tag, index) => (
-          <span key={index} className="text-sm font-medium bg-gray-100 px-2 py-1 mr-2 rounded hover:bg-gray-300 hover:cursor-pointer">
-            {tag}
-          </span>
-        ))}
       </div>
 
       {/* Answers Section */}

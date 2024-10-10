@@ -5,7 +5,7 @@ import { format } from "date-fns";
 const Comments = ({ comments }) => {
   return (
     <div className="text-black">
-      <div className="divide-y divide-gray-200 border-b border-gray-200">
+      <div className={`${comments.length > 0 ? "divide-y divide-gray-200 border-b border-gray-200" : ""}`}>
         {comments.map((comment, index) => (
           <div key={index} className="flex items-center justify-between py-2">
             {/* Comment Content */}
@@ -19,7 +19,7 @@ const Comments = ({ comments }) => {
         ))}
       </div>
       <div className="mt-1">
-        <span className="text-gray-400 hover:underline cursor-pointer text-sm">Add a comment</span>
+        <span className="text-gray-400 hover:text-secondary-400 cursor-pointer text-sm">Add a comment</span>
       </div>
     </div>
   );

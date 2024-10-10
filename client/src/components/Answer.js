@@ -15,7 +15,7 @@ const Answer = ({ answer }) => {
 
         {/* Comments below the answer content */}
         <div className="mt-4">
-          <PostFooter dateString={answer.datePosted} comments={answer.comments} />
+          <PostFooter dateString={answer.datePosted} comments={answer.comments} userName={answer.author} />
         </div>
       </div>
     </div>

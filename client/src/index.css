@@ -30,6 +30,12 @@
   padding: 0 1rem; /* Optional padding */
 }
 
+.footer-container {
+  max-width: var(80rem);
+  margin: 0 auto;
+  padding: 0 1rem; /* Optional padding */
+}
+
 html, body {
   margin: 0;
   padding: 0;
