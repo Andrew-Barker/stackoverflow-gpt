@@ -3,6 +3,7 @@ import Voter from "./Voter"; // Import the new Voter component
 import Answer from "./Answer";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import PostFooter from "./PostFooter";
+import RichTextarea from "./RichTextarea";
 
 const formatViews = (views) => {
   if (views >= 1000000) {
@@ -289,8 +290,7 @@ const Question = () => {
       {/* Your Answer Section */}
       <div className="mt-3">
         <h3 className="text-lg">Your Answer</h3>
-        <textarea className="w-full mt-2 p-2 border border-gray-300 rounded-lg h-40" placeholder="Enter your answer here..."></textarea>
-        {/* Rich text editor functionality would be handled by a library like Quill.js or Draft.js */}
+        <RichTextarea />
       </div>
     </div>
   );

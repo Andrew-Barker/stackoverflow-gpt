@@ -45,3 +45,9 @@ html, body {
 .enable-bounce {
   overscroll-behavior: auto !important;
 }
+
+.ql-editor {
+  overflow-y: scroll;
+  resize: vertical;
+  min-height: 250px;
+}
