@@ -1,5 +1,7 @@
 import React from "react";
 import Voter from "./Voter"; // Import the Voter component
+import Comments from "./Comments"; // Import the Comments component
+import PostFooter from "./PostFooter";
 
 const Answer = ({ answer }) => {
   return (
@@ -7,11 +9,13 @@ const Answer = ({ answer }) => {
       {/* Voter Component on the left */}
       <Voter initialVotes={answer.votes} isAccepted={answer.isAccepted} />
 
-      {/* Answer Content */}
-      <div className="ml-4">
+      {/* Answer Content and Comments */}
+      <div className="ml-4 flex-grow">
         <p>{answer.content}</p>
-        <div className="text-gray-600 mt-2 text-sm">
-          <span>{answer.votes} votes</span>
+
+        {/* Comments below the answer content */}
+        <div className="mt-4">
+          <PostFooter dateString={answer.datePosted} comments={answer.comments} />
         </div>
       </div>
     </div>

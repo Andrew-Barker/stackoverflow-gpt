@@ -4,7 +4,7 @@ import logo from "../assets/stackoverflow_logo.png";
 
 const SearchBar = () => {
   return (
-    <div className="sticky top-0 z-50 border-t-2 border-t-primary bg-white p-2 border-b border-gray-300">
+    <div className="sticky top-0 z-50 border-t-[3px] border-t-primary bg-white p-2 border-b border-gray-300">
       <div className="flex justify-between items-center container">
         {/* Logo Placeholder and StackOverflow text */}
         <div className="flex items-center space-x-2 px-4">
