@@ -11,6 +11,8 @@ module.exports = {
         "secondary-400": "#1b75d0",
         "secondary-500": "#155ca2",
         "secondary-600": "#0c3b6a",
+        "so-yellow-dark": "#f4d27b",
+        "so-yellow-light": "#fdf7e7",
       },
     },
   },

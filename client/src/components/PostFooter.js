@@ -14,14 +14,14 @@ const PostFooter = ({ dateString, comments, type = "answer", userName }) => {
         </div>
 
         {/* Edited Date in the Center */}
-        <div className="col-span-1 text-center">
+        <div className="col-span-1 text-right">
           <span className="text-secondary cursor-pointer hover:text-secondary-500">
             edited {format(new Date(dateString), "MMM d, yyyy 'at' HH:mm")}
           </span>
         </div>
 
         {/* Community Wiki and Username on the Right */}
-        <div className="col-span-1 text-right">
+        <div className="col-span-1 text-right pr-8">
           <span className="text-gray-400">Community Wiki</span>
           <span className="block text-secondary cursor-pointer hover:text-secondary-500">{userName}</span>
         </div>
