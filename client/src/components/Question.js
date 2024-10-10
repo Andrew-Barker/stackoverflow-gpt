@@ -303,7 +303,7 @@ const Question = () => {
         </div>
 
         {/* Info Bar */}
-        <div className="w-1/4 pl-6">
+        <div className="w-[28%] pl-6">
           <InfoBar />
         </div>
       </div>
