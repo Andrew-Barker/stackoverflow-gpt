@@ -55,7 +55,7 @@ const Voter = ({ initialVotes, isAccepted }) => {
       {/* Downvote Button */}
       <button
         onClick={handleDownvote}
-        className={`border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center mb-8 ${
+        className={`border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center mb-4 ${
           downvoted ? "bg-blue-500 text-white" : "hover:bg-orange-100"
         }`}
       >
@@ -63,7 +63,7 @@ const Voter = ({ initialVotes, isAccepted }) => {
       </button>
 
       {/* Bookmark Button */}
-      <button className="text-gray-400 mb-3">
+      <button className="text-gray-400 mb-2">
         <FaRegBookmark size={18} />
       </button>
 
