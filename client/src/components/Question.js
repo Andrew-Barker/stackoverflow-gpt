@@ -247,12 +247,24 @@ const Question = () => {
       </div>
 
       {/* Answers Section */}
-      <div className="mt-16">
+      <div className="mt-16 flex justify-between items-center mb-8">
         <h2 className="text-xl mb-4">{question.answers.length} Answers</h2>
-        {question.answers.map((answer) => (
-          <Answer key={answer.id} answer={answer} />
-        ))}
+
+        {/* Sorted By Dropdown */}
+        <div className="flex items-center space-x-2">
+          <label className="text-sm text-gray-700">Sorted by:</label>
+          <select className="border border-gray-300 rounded px-2 py-1 text-sm">
+            <option>Highest score (Default)</option>
+            <option>Trending (recent votes count more)</option>
+            <option>Date modified (newest first)</option>
+            <option>Date created (oldest first)</option>
+          </select>
+        </div>
       </div>
+
+      {question.answers.map((answer) => (
+        <Answer key={answer.id} answer={answer} />
+      ))}
     </div>
   );
 };
