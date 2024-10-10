@@ -1,0 +1,21 @@
+version: "3"
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+    command: >
+      sh -c "pip install -r requirements.txt && python src/app.py"
+
+  client:
+    build:
+      context: ./client
+    ports:
+      - "8888:3000"
+    volumes:
+      - ./client:/app
+    command: >
+      sh -c "npm install && npm start"

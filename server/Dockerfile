@@ -1,13 +1,15 @@
-FROM python:3.10.2-slim
+# Base image for Python
+FROM python:3.9-slim
 
-ENV PYTHONUNBUFFERED 1
-WORKDIR /DiscordBot
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+WORKDIR /app
 
-COPY . .
+COPY . /app
 
-RUN useradd -m discordbot && chown -R discordbot:discordbot /DiscordBot
-USER discordbot
+# Install dependencies
+RUN pip install -r requirements.txt
 
-CMD ["python3", "main.py"]
+# Expose the Flask app port (adjust if different)
+EXPOSE 5000
+
+# Run the app from the src directory
+CMD ["python", "src/app.py"]

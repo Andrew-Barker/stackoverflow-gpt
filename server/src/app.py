@@ -20,5 +20,5 @@ def chat():
     # For now, just return the raw gpt_response
     return jsonify({"response": gpt_response}), 200
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
