@@ -16,6 +16,20 @@ export const fetchQuestions = async () => {
   }
 };
 
+export const fetchQuestionDetails = async (questionId) => {
+  try {
+    const response = await fetch(`${apiBaseUrl}/questions/${questionId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch question details");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching question details:", error);
+    throw error;
+  }
+};
+
 // Post new question
 export const postQuestion = async (questionText) => {
   try {
