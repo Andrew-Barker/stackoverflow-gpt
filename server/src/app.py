@@ -82,7 +82,13 @@ def new_question():
     }
     complete_question = {**gpt_question_data, **mocked_question_data}
 
-    db_service.insert_question(complete_question)
+    question_id = db_service.insert_question(complete_question)
+
+    logging.info(f"Inserted question with ID: {question_id}")
+
+    question_details = mocked_data_service.generate_question_details(
+        question_id, complete_question['full_question'])
+    db_service.insert_question_details(question_details)
 
     # Return the parsed response as JSON
     return jsonify(complete_question), 200
@@ -101,6 +107,20 @@ def delete_question(question_id):
     result = db_service.delete_question(question_id)
     return jsonify({"status": "Question deleted"}) if result.deleted_count > 0 else jsonify({"status": "Question not found"})
 
+@app.route('/api/questions/<question_id>', methods=['GET'])
+def get_question(question_id):
+    question = db_service.get_question_by_id(question_id)
+    return jsonify(question)
+
+@app.route('/api/questions-details', methods=['GET'])
+def get_question_details():
+    question_details = db_service.get_all_question_details()
+    return jsonify(question_details)
+
+@app.route('/api/questions', methods=['DELETE'])
+def delete_all_questions():
+    result = db_service.delete_all_questions()
+    return jsonify({"status": "All questions deleted"}) if result.deleted_count > 0 else jsonify({"status": "Failed to delete all questions"})
 
 if __name__ == "__main__":
     logging.info("Starting the application")
