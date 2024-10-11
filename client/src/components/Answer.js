@@ -1,6 +1,5 @@
 import React from "react";
 import Voter from "./Voter"; // Import the Voter component
-import Comments from "./Comments"; // Import the Comments component
 import PostFooter from "./PostFooter";
 
 const Answer = ({ answer }) => {

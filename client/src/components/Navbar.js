@@ -1,10 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaQuestionCircle, FaTags, FaUsers } from "react-icons/fa";
+import { FaQuestionCircle, FaTags, FaUsers } from "react-icons/fa";
 import { MdHome } from "react-icons/md";
 import { BiBuildings } from "react-icons/bi";
-
-const activeClasses = "font-bold text-black bg-gray-100 rounded-l-md";
 
 const Navbar = () => {
   const location = useLocation();

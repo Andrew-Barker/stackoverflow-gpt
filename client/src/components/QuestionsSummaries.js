@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import InfoBar from "./InfoBar"; // Assuming InfoBar is a separate component
 import { FaCaretDown } from "react-icons/fa";
 import { IoFilterSharp } from "react-icons/io5";
