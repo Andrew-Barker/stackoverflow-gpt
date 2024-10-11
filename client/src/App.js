@@ -1,22 +1,29 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SearchBar from "./components/SearchBar";
 import Navbar from "./components/Navbar";
 import Question from "./components/Question";
-import Footer from "./components/Footer"; // Import the Footer component
+import QuestionsSummaries from "./components/QuestionsSummaries";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <SearchBar />
-      <div className="container flex">
-        <Navbar />
-        <div className="flex-grow py-4 ml-52">
-          {/* The ml-52 ensures that the content is pushed to the right of the navbar */}
-          <Question />
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <SearchBar />
+        <div className="container flex flex-grow">
+          <Navbar />
+          <div className="flex-grow py-4 ml-52">
+            <Routes>
+              <Route path="/" element={<QuestionsSummaries />} />
+              <Route path="/questions" element={<QuestionsSummaries />} />
+              <Route path="/questions/:id" element={<Question />} />
+            </Routes>
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer /> {/* Add the Footer after the main content */}
-    </div>
+    </Router>
   );
 }
 
