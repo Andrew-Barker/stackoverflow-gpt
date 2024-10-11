@@ -119,7 +119,7 @@ const QuestionsSummaries = () => {
 
   return (
     <div className="container mx-auto py-4 border-l border-gray-200 flex">
-      <div className="flex-grow">
+      <div className="flex-grow max-w-[72%]">
         {/* Page Title and Ask Question Button */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl">All Questions</h1>
@@ -159,7 +159,7 @@ const QuestionsSummaries = () => {
       </div>
 
       {/* Info Bar */}
-      <div className="ml-8 w-1/4">
+      <div className="ml-8 w-[28%]">
         <InfoBar />
       </div>
     </div>

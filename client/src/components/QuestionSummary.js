@@ -16,7 +16,7 @@ const QuestionSummary = ({ question }) => {
     <li className="border-b border-gray-300 pb-4 flex">
       {/* Votes, Answers, Views */}
       <div className="w-1/5 flex flex-col items-end mr-4 pr-2 text-xs shrink-0">
-        <span className="text-gray-700">
+        <span className="text-gray-700 mb-[5px]">
           <span className="font-medium text-sm">{question.votes}</span> votes
         </span>
 
@@ -31,7 +31,7 @@ const QuestionSummary = ({ question }) => {
           <span className="border border-green-700 text-green-700 font-bold px-2 py-1 rounded">{question.answers} answers</span>
         )}
 
-        <span className="text-red-700">
+        <span className="text-red-700 mt-[5px]">
           <span className="font-medium text-sm">{formatViews(question.views)}</span> views
         </span>
       </div>
