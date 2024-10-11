@@ -5,3 +5,4 @@ openai==1.30.3
 selenium==4.9.1
 g4f==0.3.2.9
 g4f[all]
+flask-cors==5.0.0

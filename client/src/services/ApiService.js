@@ -1,5 +1,5 @@
-const apiPort = process.env.REACT_APP_API_PORT;
-const apiBaseUrl = `http://localhost:${apiPort}`;
+const apiPort = process.env.REACT_APP_API_PORT || 5000; // Default to port 5000 if not set
+const apiBaseUrl = `http://localhost:${apiPort}/api`;
 
 // Fetch question data
 export const fetchQuestions = async () => {

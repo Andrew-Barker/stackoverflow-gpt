@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import g4f
+from mockedData import get_questions_data
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -65,5 +68,12 @@ def new_question():
         "tags": tags
     }), 200
 
+@app.route('/api/questions', methods=['GET'])
+def get_questions():
+    questions = get_questions_data()
+    # questions = {}
+    return jsonify(questions), 200
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
