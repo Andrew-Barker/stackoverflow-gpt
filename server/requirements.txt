@@ -6,3 +6,5 @@ selenium==4.9.1
 g4f==0.3.2.9
 g4f[all]
 flask-cors==5.0.0
+pymongo==4.10.1
+faker==30.3.0

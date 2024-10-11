@@ -56,7 +56,7 @@ const QuestionsSummaries = () => {
         {/* Questions List */}
         <ul className="space-y-4">
           {questionsData?.questions?.map((q) => (
-            <QuestionSummary key={q.id} question={q} />
+            <QuestionSummary key={q._id} question={q} />
           ))}
         </ul>
       </div>

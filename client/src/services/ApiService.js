@@ -8,7 +8,9 @@ export const fetchQuestions = async () => {
     if (!response.ok) {
       throw new Error("Failed to fetch questions");
     }
-    return await response.json();
+    const data = await response.json();
+    console.log("data on api layer", data);
+    return data;
   } catch (error) {
     console.error("Error fetching question data:", error);
     throw error;

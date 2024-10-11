@@ -1,10 +1,15 @@
+from crypt import methods
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import g4f
-from mockedData import get_questions_data
+from mocked_data import MockedDataService
+from database_service import DatabaseService
 
 app = Flask(__name__)
 CORS(app)
+db_service = DatabaseService()
+mocked_data_service = MockedDataService()
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -61,18 +66,32 @@ def new_question():
     full_question = parsed_response.get('fullQuestion', 'No full question provided')
     tags = parsed_response.get('tags', [])
 
-    # Return the parsed response as JSON
-    return jsonify({
+    mocked_question_data = mocked_data_service.generate_random_question_data()
+    gpt_question_data = {
         "title": title,
         "full_question": question,
         "tags": tags
-    }), 200
+    }
+    complete_question = {**gpt_question_data, **mocked_question_data}
+
+    db_service.insert_question(complete_question)
+
+    # Return the parsed response as JSON
+    return jsonify(complete_question), 200
 
 @app.route('/api/questions', methods=['GET'])
 def get_questions():
-    questions = get_questions_data()
-    # questions = {}
-    return jsonify(questions), 200
+    questions = db_service.get_questions()
+
+    return jsonify({
+        "questions": questions,
+        "totalQuestions": len(questions)
+    }), 200
+
+@app.route('/api/questions/<question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    result = db_service.delete_question(question_id)
+    return jsonify({"status": "Question deleted"}) if result.deleted_count > 0 else jsonify({"status": "Question not found"})
 
 
 if __name__ == "__main__":

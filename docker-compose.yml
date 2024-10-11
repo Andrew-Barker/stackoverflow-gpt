@@ -9,6 +9,10 @@ services:
       - ./server:/app
     command: >
       sh -c "pip install -r requirements.txt && python src/app.py"
+    environment:
+      - MONGO_URI=mongodb://stackoverflow-gpt-mongodb:27017/stackoverflow_gpt
+    depends_on:
+      - stackoverflow-gpt-mongodb
 
   client:
     build:
@@ -19,3 +23,17 @@ services:
       - ./client:/app
     command: >
       sh -c "npm install && npm start"
+
+  stackoverflow-gpt-mongodb:
+    image: mongo:latest
+    container_name: stackoverflow-gpt-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: stackoverflow_gpt
+    volumes:
+      - stackoverflow-gpt-mongo-data:/data/db
+
+volumes:
+  stackoverflow-gpt-mongo-data:
+    external: false

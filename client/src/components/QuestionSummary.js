@@ -38,7 +38,7 @@ const QuestionSummary = ({ question }) => {
 
       {/* Question Title, Description, and Tags */}
       <div className="flex-grow">
-        <Link to={`/question/${question.id}`} className="text-secondary hover:underline text-lg">
+        <Link to={`/question/${question._id}`} className="text-secondary hover:underline text-lg">
           {question.title}
         </Link>
 
@@ -48,8 +48,8 @@ const QuestionSummary = ({ question }) => {
         {/* Tags */}
         <p className="text-gray-600 mt-1">
           {question?.tags?.map((tag, index) => (
-            <span key={index} className="bg-gray-100 px-2 py-1 text-xs rounded mr-2 font-bold">
-              {tag}m
+            <span key={index} className="bg-gray-100 px-2 py-1 text-xs rounded mr-2 font-bold cursor-pointer">
+              {tag}
             </span>
           ))}
         </p>
