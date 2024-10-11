@@ -28,25 +28,30 @@ const AskQuestionButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const response = await postQuestion({ question });
 
       if (response && response._id) {
         toast.success("Question successfully posted!"); // Success toast
+        setLoading(false);
 
         closeModal();
 
         // Redirect to the question page after successful post
         navigate(`/questions/${response._id}`);
       } else {
+        setLoading(false);
         toast.error("Failed to retrieve question ID."); // In case question ID is missing in response
       }
     } catch (error) {
+      setLoading(false);
       toast.error("Error posting question."); // Error toast
       console.error("Error posting question:", error);
     }
@@ -78,31 +83,29 @@ const AskQuestionButton = () => {
             onChange={(e) => setQuestion(e.target.value)}
             className="w-full h-40 p-2 border border-gray-300 rounded"
             placeholder="Enter your question here..."
+            disabled={loading} // Disable text area while loading
           />
 
           <div className="flex justify-end mt-4 space-x-2">
-            <button onClick={handleSubmit} className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary-dark">
-              Submit
-            </button>
-            <button onClick={closeModal} className="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-200">
-              Cancel
-            </button>
+            {loading ? (
+              <div className="flex items-center justify-center space-x-2">
+                {/* You can replace this with any loading spinner */}
+                <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6"></div>
+                <span>Posting your question...</span>
+              </div>
+            ) : (
+              <>
+                <button onClick={handleSubmit} className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary-dark">
+                  Submit
+                </button>
+                <button onClick={closeModal} className="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-200">
+                  Cancel
+                </button>
+              </>
+            )}
           </div>
         </div>
       </Modal>
-
-      {/* ToastContainer to display toast notifications */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { formatDistanceToNow, parseISO } from "date-fns";
 import PostFooter from "./PostFooter";
 import RichTextarea from "./RichTextarea";
 import InfoBar from "./InfoBar";
+import AskQuestionButton from "./AskQuestionButton";
 
 const formatViews = (views) => {
   if (views >= 1000000) {
@@ -226,7 +227,9 @@ const Question = () => {
       <div className="border-b border-gray-300 pb-4 mb-4">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl mb-2">{question.title}</h1>
-          <button className="bg-secondary text-white px-4 py-2 rounded-md text-sm">Ask Question</button>
+          <div>
+            <AskQuestionButton />
+          </div>
         </div>
         {/* Post Details */}
         <div className="text-gray-600 text-sm flex space-x-6 mt-2">
