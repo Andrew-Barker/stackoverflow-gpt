@@ -5,6 +5,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { IoFilterSharp } from "react-icons/io5";
 import QuestionSummary from "./QuestionSummary";
 import { fetchQuestions } from "../services/ApiService";
+import AskQuestionButton from "./AskQuestionButton";
 
 const QuestionsSummaries = () => {
   const [questionsData, setQuestionsData] = useState(null);
@@ -26,7 +27,10 @@ const QuestionsSummaries = () => {
         {/* Page Title and Ask Question Button */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl">All Questions</h1>
-          <button className="bg-secondary text-white text-sm px-4 py-2 rounded-md hover:bg-secondary-dark">Ask Question</button>
+          {/* <button className="bg-secondary text-white text-sm px-4 py-2 rounded-md hover:bg-secondary-dark">Ask Question</button> */}
+          <div>
+            <AskQuestionButton />
+          </div>
         </div>
 
         {/* Total Questions Count, Sorting, and Filter */}

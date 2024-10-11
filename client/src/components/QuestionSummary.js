@@ -38,7 +38,7 @@ const QuestionSummary = ({ question }) => {
 
       {/* Question Title, Description, and Tags */}
       <div className="flex-grow">
-        <Link to={`/question/${question._id}`} className="text-secondary hover:underline text-lg">
+        <Link to={`/questions/${question._id}`} className="text-secondary hover:underline text-lg">
           {question.title}
         </Link>
 

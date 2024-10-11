@@ -8,11 +8,32 @@ export const fetchQuestions = async () => {
     if (!response.ok) {
       throw new Error("Failed to fetch questions");
     }
-    const data = await response.json();
-    console.log("data on api layer", data);
-    return data;
+
+    return await response.json();
   } catch (error) {
     console.error("Error fetching question data:", error);
+    throw error;
+  }
+};
+
+// Post new question
+export const postQuestion = async (questionText) => {
+  try {
+    const response = await fetch(`${apiBaseUrl}/questions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ question: questionText }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to post question");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error posting question:", error);
     throw error;
   }
 };
