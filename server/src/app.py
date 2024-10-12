@@ -18,6 +18,11 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]  # Log to console
 )
 
+ASSISTANT = "assistant"
+USER = "user"
+
+def create_conversation_obj(message, role):
+    return {"role": role, "content": message}
 @app.route('/api/chat', methods=['POST'])
 def chat():
     # Get the JSON data from the request
@@ -86,8 +91,19 @@ def new_question():
 
     logging.info(f"Inserted question with ID: {question_id}")
 
+    try:
+        gpt_question_send = create_conversation_obj(question['question'], USER)
+        gpt_question_answer = g4f.ChatCompletion.create(model='gpt-4', messages=[gpt_question_send])
+    except Exception as e:
+        logging.error(f"Failed to get response from GPT: {e}")
+        return jsonify({"error": "Failed to get response from GPT for user's question", "details": e}), 500
+
+    conversation_history = {"conversation": [gpt_question_send, create_conversation_obj(gpt_question_answer, ASSISTANT)]}
+
+    complete_question = {**complete_question, **conversation_history}
+
     question_details = mocked_data_service.generate_question_details(
-        question_id, complete_question['full_question'])
+        question_id, complete_question)
     db_service.insert_question_details(question_details)
 
     # Return the parsed response as JSON

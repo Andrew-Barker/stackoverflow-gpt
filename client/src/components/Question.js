@@ -32,7 +32,6 @@ const Question = () => {
     const getQuestionDetails = async () => {
       try {
         const data = await fetchQuestionDetails(questionId); // Call API with question ID
-        console.log("data from api", data);
         setQuestion(data); // Set the fetched data
         setLoading(false); // Set loading to false once data is fetched
       } catch (error) {

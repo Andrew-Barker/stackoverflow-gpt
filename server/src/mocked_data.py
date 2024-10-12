@@ -69,13 +69,14 @@ class MockedDataService:
             answers.append(answer)
         return answers
 
-    def generate_question_details(self, question, full_question):
+    def generate_question_details(self, question, complete_question):
         # Mock full question details data
         details = {
-            "content": full_question,
+            "content": complete_question['full_question'],
             "comments": self.generate_mock_comments(),
             # "answers": self.generate_mock_answers(),
             # "comments": [],
+            "conversation": complete_question['conversation'],
             "answers": [],
             "datePosted": datetime.datetime.now().isoformat() + 'Z',  # ISO 8601 format
             "dateModified": datetime.datetime.now().isoformat() + 'Z'  # ISO 8601 format
