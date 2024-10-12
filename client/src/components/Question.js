@@ -56,7 +56,6 @@ const Question = () => {
 
   // Helper functions to format date and views with fallback
   const formatDate = (date) => {
-    console.log("do i have a date", date);
     return date ? formatDistanceToNow(parseISO(date), { addSuffix: true }) : "Unknown date";
   };
 
@@ -90,7 +89,7 @@ const Question = () => {
       {/* Question Content and InfoBar */}
       <div className="flex">
         {/* Question and Voter */}
-        <div className="flex-grow">
+        <div className="flex-grow max-w-[72%]">
           <div className="mb-6 flex">
             {/* Voter Component */}
             <Voter initialVotes={question.votes} />
@@ -113,15 +112,17 @@ const Question = () => {
 
           {/* Answers Section */}
           <div className="mt-16 mb-8">
-            <h2 className="text-xl mb-4">{question.answers.length} Answers</h2>
-            <div className="flex items-center space-x-2">
-              <label className="text-sm text-gray-700">Sorted by:</label>
-              <select className="border border-gray-300 rounded px-2 py-1 text-sm">
-                <option>Highest score (Default)</option>
-                <option>Trending (recent votes count more)</option>
-                <option>Date modified (newest first)</option>
-                <option>Date created (oldest first)</option>
-              </select>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl">{question.answers.length} Answers</h2>
+              <div className="flex items-center space-x-2">
+                <label className="text-sm text-gray-700">Sorted by:</label>
+                <select className="border border-gray-300 rounded px-2 py-1 text-sm">
+                  <option>Highest score (Default)</option>
+                  <option>Trending (recent votes count more)</option>
+                  <option>Date modified (newest first)</option>
+                  <option>Date created (oldest first)</option>
+                </select>
+              </div>
             </div>
 
             {question.answers.map((answer) => (

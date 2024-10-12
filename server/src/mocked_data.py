@@ -74,7 +74,9 @@ class MockedDataService:
         details = {
             "content": full_question,
             "comments": self.generate_mock_comments(),
-            "answers": self.generate_mock_answers(),
+            # "answers": self.generate_mock_answers(),
+            # "comments": [],
+            "answers": [],
             "datePosted": datetime.datetime.now().isoformat() + 'Z',  # ISO 8601 format
             "dateModified": datetime.datetime.now().isoformat() + 'Z'  # ISO 8601 format
         }
