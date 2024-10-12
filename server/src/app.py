@@ -126,7 +126,11 @@ def delete_question(question_id):
 @app.route('/api/questions/<question_id>', methods=['GET'])
 def get_question(question_id):
     question = db_service.get_question_by_id(question_id)
-    return jsonify(question)
+    # Map the conversation array to the answers array using the method
+    updated_question = mocked_data_service.map_conversation_to_answers(question)
+
+    # Return the updated question object with answers
+    return jsonify(updated_question)
 
 @app.route('/api/questions-details', methods=['GET'])
 def get_question_details():

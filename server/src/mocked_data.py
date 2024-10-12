@@ -84,3 +84,53 @@ class MockedDataService:
 
         complete_details = {**question, **details}
         return complete_details
+
+    def generate_random_answer_data(self):
+        """Generates random data for answer fields."""
+        return {
+            "votes": random.randint(0, 5000),  # Random vote count between 0 and 5000
+            "isAccepted": random.choice([True, False]),  # Randomly choose if the answer is accepted
+            "datePosted": datetime.datetime.now() - datetime.timedelta(days=random.randint(0, 365))  # Random date within the last year
+        }
+
+    def map_conversation_to_answers(self, question):
+        """
+        Maps the conversation array to the answers array based on roles.
+        The first conversation element is skipped as it represents the full question.
+        Updates the question object with answers.
+        """
+        answers = []
+
+        # Ensure there's a conversation array
+        if "conversation" in question and len(question["conversation"]) > 1:
+            # Start mapping from the second element onward (skipping the first)
+            for idx, entry in enumerate(question["conversation"][1:], start=1):
+                # Map the role to author
+                author = "User" if entry["role"] == "user" else "Assistant"
+
+                # Generate random values for the answer fields
+                random_answer_data = self.generate_random_answer_data()
+
+                # Create an answer object from each conversation entry
+                answer = {
+                    "id": idx,  # ID can be the index starting from 1
+                    "content": entry["content"],
+                    "author": author,
+                    "votes": random_answer_data["votes"],  # Random votes
+                    "isAccepted": random_answer_data["isAccepted"],
+                    # Randomly set accepted flag
+                    "datePosted": random_answer_data["datePosted"].isoformat(),
+                    # Random date as ISO string
+                    "comments": []  # Initialize an empty list for comments
+                }
+
+                # Append the answer to the answers array
+                answers.append(answer)
+
+        # Add the generated answers array to the question
+        question["answers"] = answers
+
+        # Optionally, remove the conversation field if it's no longer needed
+        question.pop("conversation", None)
+
+        return question
