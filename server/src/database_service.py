@@ -55,3 +55,7 @@ class DatabaseService:
 
   def get_all_question_details(self):
     return list(self.db.question_details.find())
+
+  def update_question_details(self, question_id, update_data):
+    return self.db.question_details.update_one({"_id": question_id},
+                                               {"$set": update_data})

@@ -1,30 +1,49 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill CSS
+import "react-quill/dist/quill.snow.css";
+import { postAnswer } from "../services/ApiService";
+import { toast } from "react-toastify";
 
-const RichTextarea = () => {
+const RichTextarea = ({ questionId, reloadQuestion }) => {
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["bold", "italic", "underline", "strike"],
       ["blockquote", "code-block"],
-
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ script: "sub" }, { script: "super" }], // superscript/subscript
-      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-      [{ direction: "rtl" }], // text direction
-
-      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ script: "sub" }, { script: "super" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ direction: "rtl" }],
+      [{ size: ["small", false, "large", "huge"] }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
       ["link", "image", "video"],
-      [{ color: [] }, { background: [] }], // dropdown with defaults
+      [{ color: [] }, { background: [] }],
       [{ align: [] }],
-
-      ["clean"], // remove formatting button
+      ["clean"],
     ],
+  };
+
+  const handlePostAnswer = async () => {
+    if (!value.trim()) {
+      toast.error("Answer cannot be empty!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await postAnswer(questionId, value);
+      toast.success("Answer posted successfully!");
+      setValue(""); // Clear the editor
+      reloadQuestion(); // Reload question details
+    } catch (error) {
+      toast.error("Error posting answer. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,7 +64,9 @@ const RichTextarea = () => {
         placeholder="Enter your answer here..."
         style={{ height: "100%" }}
       />
-      <button className="bg-secondary text-white px-4 py-2 mt-12 rounded-md text-sm">Post Your Answer</button>
+      <button className="bg-secondary text-white px-4 py-2 mt-12 rounded-md text-sm" onClick={handlePostAnswer} disabled={loading}>
+        {loading ? "Posting..." : "Post Your Answer"}
+      </button>
     </div>
   );
 };

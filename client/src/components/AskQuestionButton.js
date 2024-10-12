@@ -107,7 +107,7 @@ const AskQuestionButton = () => {
         </div>
       </Modal>
 
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -117,7 +117,7 @@ const AskQuestionButton = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      /> */}
     </>
   );
 };

@@ -6,6 +6,7 @@ import g4f
 from mocked_data import MockedDataService
 from database_service import DatabaseService
 import logging
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -141,6 +142,63 @@ def get_question_details():
 def delete_all_questions():
     result = db_service.delete_all_questions()
     return jsonify({"status": "All questions deleted"}) if result.deleted_count > 0 else jsonify({"status": "Failed to delete all questions"})
+
+
+@app.route('/api/questions/<question_id>/answer', methods=['POST'])
+def add_answer_to_question(question_id):
+    try:
+        # Get the answer from the request
+        data = request.get_json()
+        user_answer = data.get('answer')
+
+        # Fetch the question details from the database
+        question_details = db_service.get_question_by_id(question_id)
+
+        if not question_details:
+            return jsonify({"error": "Question not found"}), 404
+
+        # Add the user answer to the conversation array
+        question_details['conversation'].append({
+            "content": user_answer,
+            "role": "user"
+        })
+
+        # Generate a GPT response for the new answer
+        gpt_response = g4f.ChatCompletion.create(
+            model='gpt-4',
+            messages=[{"role": "user", "content": user_answer}] +
+                     question_details['conversation']
+        )
+
+        # Add the GPT response to the conversation array
+        question_details['conversation'].append({
+            "content": gpt_response if gpt_response else "No response",
+            "role": "assistant"
+        })
+
+        # Optionally create a new answer object and append it to the 'answers' array
+        new_answer = {
+            "id": len(question_details['answers']) + 1,
+            "content": gpt_response if gpt_response else "No response",
+            "votes": 0,
+            "isAccepted": False,
+            "author": "GPT Assistant",
+            "datePosted": datetime.datetime.now().isoformat(),
+            "dateModified": datetime.datetime.now().isoformat(),
+            "comments": []
+        }
+        question_details['answers'].append(new_answer)
+
+        # Update the question details in the database
+        db_service.update_question_details(question_id, question_details)
+
+        return jsonify({"status": "Answer added",
+                        "updatedQuestion": question_details}), 200
+
+    except Exception as e:
+        print(f"Error adding answer: {e}")
+        return jsonify({"error": "An error occurred"}), 500
+
 
 if __name__ == "__main__":
     logging.info("Starting the application")

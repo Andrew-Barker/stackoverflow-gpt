@@ -28,20 +28,22 @@ const Question = () => {
   const [question, setQuestion] = useState(null); // To store the question details
   const [loading, setLoading] = useState(true); // To handle the loading state
 
-  useEffect(() => {
-    const getQuestionDetails = async () => {
-      try {
-        const data = await fetchQuestionDetails(questionId); // Call API with question ID
-        setQuestion(data); // Set the fetched data
-        setLoading(false); // Set loading to false once data is fetched
-      } catch (error) {
-        console.error("Error fetching question details:", error);
-        setLoading(false); // Stop loading if an error occurs
-      }
-    };
+  // Function to fetch and set question details
+  const loadQuestionDetails = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchQuestionDetails(questionId);
+      setQuestion(data);
+    } catch (error) {
+      console.error("Error fetching question details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    getQuestionDetails();
-  }, [questionId]); // Run the effect when the questionId changes
+  useEffect(() => {
+    loadQuestionDetails();
+  }, [questionId]);
 
   // Show loading message while fetching data
   if (loading) {
@@ -143,7 +145,7 @@ const Question = () => {
           {/* Your Answer Section */}
           <div className="mt-3">
             <h3 className="text-lg">Your Answer</h3>
-            <RichTextarea />
+            <RichTextarea questionId={questionId} reloadQuestion={loadQuestionDetails} />
           </div>
         </div>
 

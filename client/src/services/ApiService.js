@@ -52,4 +52,25 @@ export const postQuestion = async (questionText) => {
   }
 };
 
+export const postAnswer = async (questionId, answerText) => {
+  try {
+    const response = await fetch(`${apiBaseUrl}/questions/${questionId}/answer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ answer: answerText }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to post answer");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error posting answer:", error);
+    throw error;
+  }
+};
+
 // Add other API methods as needed

@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Question from "./components/Question";
 import QuestionsSummaries from "./components/QuestionsSummaries";
 import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -22,6 +23,17 @@ function App() {
           </div>
         </div>
         <Footer />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </Router>
   );
