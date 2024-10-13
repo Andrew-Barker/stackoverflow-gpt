@@ -51,3 +51,7 @@ html, body {
   resize: vertical;
   min-height: 250px;
 }
+
+code[class^="language-"] {
+  background-color: #f6f6f6 !important; /* Change this to your desired background color */
+}

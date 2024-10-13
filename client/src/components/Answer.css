@@ -1,0 +1,43 @@
+/* Custom CSS for Answer component */
+
+/* Style for inline code snippets */
+.inline-code {
+    background-color: #f6f8fa;
+    padding: 0.2em 0.4em;
+    font-size: 13px;
+    border-radius: 3px;
+    color: #000000;
+    white-space: nowrap; /* Prevents inline code from breaking into multiple lines */
+  }
+  
+  /* Style for the entire code block (not managed by syntax highlighter) */
+  .code-block {
+    background-color: #f6f8fa;
+    padding: 12px;
+    font-size: 13px; /* text-xs */
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    max-width: 100%; /* Ensures the code block does not overflow its container */
+    overflow-x: auto; /* Allows horizontal scrolling if content is too wide */
+    white-space: pre; /* Prevents text wrapping in code block */
+    word-wrap: normal; /* Ensures long strings are not broken */
+    box-sizing: border-box; /* Ensures padding is included in width */
+  }
+  
+  /* Additional styling for code blocks */
+  pre {
+    margin: 0;
+    font-size: 0.85em;
+    font-family: "Courier New", Courier, monospace;
+    color: #333;
+    white-space: pre-wrap; /* Handles proper wrapping within pre blocks */
+    overflow-x: auto; /* Ensures horizontal scroll inside pre */
+  }
+  
+  /* Ensure that the parent of the code block also behaves correctly */
+  .answer-content {
+    display: block;
+    max-width: 100%; /* Ensures the answer content doesn't overflow its container */
+    overflow-wrap: break-word; /* Allows breaking long words if needed */
+  }

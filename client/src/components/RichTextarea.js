@@ -4,6 +4,12 @@ import "react-quill/dist/quill.snow.css";
 import { postAnswer } from "../services/ApiService";
 import { toast } from "react-toastify";
 
+// Utility function to strip HTML tags and get plain text
+const stripHtml = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};
+
 const RichTextarea = ({ questionId, reloadQuestion }) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,13 +38,19 @@ const RichTextarea = ({ questionId, reloadQuestion }) => {
       return;
     }
 
+    // Strip HTML from the answer before posting
+    const plainTextAnswer = stripHtml(value);
+
     setLoading(true);
 
     try {
-      await postAnswer(questionId, value);
+      await postAnswer(questionId, plainTextAnswer);
       toast.success("Answer posted successfully!");
       setValue(""); // Clear the editor
       reloadQuestion(); // Reload question details
+
+      // Scroll to the bottom after successfully posting the answer
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     } catch (error) {
       toast.error("Error posting answer. Please try again.");
     } finally {

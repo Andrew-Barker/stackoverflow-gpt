@@ -13,11 +13,17 @@ CORS(app)
 db_service = DatabaseService()
 mocked_data_service = MockedDataService()
 
-logging.basicConfig(
-    level=logging.INFO,  # Set logging level
-    format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
-    handlers=[logging.StreamHandler()]  # Log to console
-)
+# Configure Flask logger to log to console
+console_handler = logging.StreamHandler()  # StreamHandler logs to console
+console_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+
+# Remove default handlers if necessary and set the console handler
+if not app.logger.handlers:
+    app.logger.addHandler(console_handler)
+
+app.logger.setLevel(logging.INFO)
 
 ASSISTANT = "assistant"
 USER = "user"
@@ -51,7 +57,7 @@ def new_question():
 
     # Extract the question from the JSON
     question = data.get('question', '')
-    logging.debug(f"Received question: {question}")
+    app.logger.debug(f"Received question: {question}")
 
     # Use g4f to get the response from ChatGPT
     prompt = f"Please analyze the following question and return JSON in three fields where the field keys are lowercase camelcase: title and 2-5 relevant tags (if the tag is many words use a hyphen to separate the words in the tag).\n\nQuestion: {question}\n\nOutput format:\nTitle: <insert title>\nTags: <insert tags>"
@@ -59,21 +65,21 @@ def new_question():
     try:
         gpt_response = g4f.ChatCompletion.create(model='gpt-4', messages=[
             {"role": "user", "content": prompt}])
-        logging.debug(f"Received response from GPT: {gpt_response}")
+        app.logger.debug(f"Received response from GPT: {gpt_response}")
     except Exception as e:
-        logging.error(f"Failed to get response from GPT: {e}")
+        app.logger.error(f"Failed to get response from GPT: {e}")
         return jsonify({"error": "Failed to get response from GPT", "details": e}), 500
 
     # Assuming the response is wrapped in backticks and contains a JSON string
     response_text = gpt_response.strip('```json').strip('```')
 
-    logging.debug(f"Parsed text: {response_text}")
+    app.logger.debug(f"Parsed text: {response_text}")
 
     # Parse the string as JSON
     try:
         parsed_response = json.loads(response_text)
     except json.JSONDecodeError as e:
-        logging.error(f"Failed to parse JSON: {e}")
+        app.logger.error(f"Failed to parse JSON: {e}")
         return jsonify({"error": "Failed to parse response from GPT", "details": e}), 500
 
     # Extract title, full question, and tags
@@ -90,13 +96,13 @@ def new_question():
 
     question_id = db_service.insert_question(complete_question)
 
-    logging.info(f"Inserted question with ID: {question_id}")
+    app.logger.info(f"Inserted question with ID: {question_id}")
 
     try:
         gpt_question_send = create_conversation_obj(question['question'], USER)
         gpt_question_answer = g4f.ChatCompletion.create(model='gpt-4', messages=[gpt_question_send])
     except Exception as e:
-        logging.error(f"Failed to get response from GPT: {e}")
+        app.logger.error(f"Failed to get response from GPT: {e}")
         return jsonify({"error": "Failed to get response from GPT for user's question", "details": e}), 500
 
     conversation_history = {"conversation": [gpt_question_send, create_conversation_obj(gpt_question_answer, ASSISTANT)]}
@@ -163,6 +169,8 @@ def add_answer_to_question(question_id):
             "role": "user"
         })
 
+        app.logger.debug(f"conversation history for user answer: {question_details['conversation']}")
+
         # Generate a GPT response for the new answer
         gpt_response = g4f.ChatCompletion.create(
             model='gpt-4',
@@ -189,6 +197,8 @@ def add_answer_to_question(question_id):
         }
         question_details['answers'].append(new_answer)
 
+        app.logger.debug(f"conversation history after GPT response: {question_details['conversation']}")
+
         # Update the question details in the database
         db_service.update_question_details(question_id, question_details)
 
@@ -201,5 +211,5 @@ def add_answer_to_question(question_id):
 
 
 if __name__ == "__main__":
-    logging.info("Starting the application")
+    app.logger.info("Starting the application")
     app.run(host="0.0.0.0", port=5000, debug=False)
